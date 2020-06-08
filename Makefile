@@ -209,3 +209,19 @@ i $(i):
 
 gs:
 	git status
+
+gss:
+	cd $(ttt) && git status
+
+gd :
+	git diff
+
+gdd:
+	cd $(ttt) && git diff
+
+gc :
+	git commit -a
+
+gcc :
+	cd $(ttt) && git commit -a
+
