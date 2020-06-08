@@ -1,0 +1,28 @@
+./browser/components/preferences/connection.js:  { id: "network.proxy.http_port", type: "int" },
+./browser/components/preferences/connection.js:    var httpProxyPortPref = Preferences.get("network.proxy.http_port");
+./browser/components/preferences/connection.js:    var httpProxyPortPref = Preferences.get("network.proxy.http_port");
+./browser/components/preferences/connection.xul:                          preference="network.proxy.http_port" onsyncfrompreference="return gConnectionsDialog.readHTTPProxyPort();"/>
+./browser/components/preferences/in-content/extensionControlled.js:  "network.proxy.http_port",
+./browser/components/preferences/in-content/tests/browser_connection_bug388287.js:      httpPortPref = dialog.Preferences.get("network.proxy.http_port");
+./browser/components/preferences/in-content/tests/browser_proxy_backup.js:  Services.prefs.setIntPref("network.proxy.http_port", 1200);
+./modules/libpref/init/all.js:pref("network.proxy.http_port",             0);
+./netwerk/test/unit/test_auth_proxy.js:    "network.proxy.http_port",
+./netwerk/test/unit/test_auth_proxy.js:    Services.prefs.clearUserPref("network.proxy.http_port");
+./netwerk/test/unit/test_bug770243.js:  prefs.setIntPref("network.proxy.http_port", httpserv.identity.primaryPort);
+./netwerk/test/unit/test_protocolproxyservice.js:  prefs.setIntPref("network.proxy.http_port", 8080);
+./netwerk/test/unit/test_protocolproxyservice.js:  prefs.setIntPref("network.proxy.http_port", 0);
+./netwerk/test/unit/test_protocolproxyservice.js:  prefs.setIntPref("network.proxy.http_port", 8080);
+./testing/awsy/conf/tp6-prefs.json:    "network.proxy.http_port": 8080,
+./testing/marionette/capabilities.js:            Preferences.set("network.proxy.http_port", this.httpProxyPort);
+./testing/profiles/perf/user.js:user_pref("network.proxy.http_port", 80);
+./testing/raptor/raptor/raptor.py:        proxy_prefs["network.proxy.http_port"] = 8080
+./toolkit/components/extensions/parent/ext-proxy.js:    "network.proxy.http_port",
+./toolkit/components/extensions/test/xpcshell/test_ext_proxy_config.js:    "network.proxy.http_port": 0,
+./toolkit/components/extensions/test/xpcshell/test_ext_proxy_config.js:      "network.proxy.http_port": 80,
+./toolkit/components/extensions/test/xpcshell/test_ext_proxy_config.js:      "network.proxy.http_port": 8080,
+./toolkit/components/extensions/test/xpcshell/test_ext_proxy_config.js:      "network.proxy.http_port": 8080,
+./toolkit/components/extensions/test/xpcshell/test_ext_proxy_config.js:      "network.proxy.http_port": 80,
+./toolkit/components/extensions/test/xpcshell/test_ext_proxy_config.js:      "network.proxy.http_port": 80,
+./toolkit/components/extensions/test/xpcshell/test_ext_proxy_config.js:      "network.proxy.http_port": 80,
+./toolkit/components/extensions/test/xpcshell/test_ext_proxy_config.js:      "network.proxy.http_port": 0,
+./toolkit/components/extensions/test/xpcshell/test_ext_proxy_settings.js:    Services.prefs.getIntPref("network.proxy.http_port"),
