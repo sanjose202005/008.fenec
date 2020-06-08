@@ -44,6 +44,7 @@ r1  -->> $(r1)   -->> $($(r1))
 rrr -->> $(rrr)
 
 i  -->> $(i)   -->> $($(i))
+bk01 -->> $(bk01)
 
 # https://hg.mozilla.org/releases/mozilla-esr68/
 
@@ -118,6 +119,8 @@ export local_propertiesTEXT
 all:
 	@echo "$${mozconfTEXT}" > $(ttt)/.mozconfig
 	@echo "$${local_propertiesTEXT}" > $(ttt)/local.properties
+	cat all.js.003.my.js > $(ttt)/modules/libpref/init/all.js
+	cd $(ttt) && tar xf ../bkTar/bk01_icon.tar 
 	@echo "$${allHelpText}"
 
 m:=vm1
@@ -199,13 +202,26 @@ rrr2 := r2 r3 r4 r5 r6 r7
 rrr : $(rrr)
 rrr2 : $(rrr2)
 
-iconsCMD:= find ./$(ttt)/mobile/android/ -name "*.png" |grep ic_launcher
+iconsCMD1:= find ./$(ttt)/mobile/android/ -name "*.png" |grep ic_launcher
 iconsCMD2:= find ./$(ttt)/mobile/android/branding/unofficial/res/mipmap-xxhdpi/ -name "*.png" |grep ic_launcher
+define iconsCMD3
+
+$(ttt)/mobile/android/branding/unofficial/res/mipmap-xxxhdpi/ic_launcher_foreground.png
+$(ttt)/mobile/android/branding/unofficial/res/mipmap-xxhdpi/ic_launcher_foreground.png
+$(ttt)/mobile/android/app/src/main/res/drawable-nodpi/firstrun_sendtab.png
+$(ttt)/mobile/android/app/src/main/res/drawable-nodpi/firstrun_sync2.png
+$(ttt)/mobile/android/app/src/main/res/drawable-nodpi/firstrun_welcome2.png
+
+
+endef
+export iconsCMD3
 i:=icons
 $(i):=$(iconsCMD2)
 i $(i):
 	$(iconsCMD2)
+	@echo ; echo "$(iconsCMD1)" ; echo
 	@echo ; echo "$(iconsCMD2)" ; echo
+	@echo ; echo "$${iconsCMD3}" ; echo
 
 gs:
 	git status
@@ -224,4 +240,18 @@ gc :
 
 gcc :
 	cd $(ttt) && git commit -a
+
+
+bk01:=bk01_icon_of_ourselves
+bk01 $(bk01):
+	[ -d bkTar/ ] || mkdir bkTar/
+	[ -d bkTar/ ] 
+	[ ! -f bkTar/bk01_icon.tar ]
+	cd $(ttt) && tar cf ../bkTar/bk01_icon.tar \
+		mobile/android/branding/unofficial/res/mipmap-xxxhdpi/ic_launcher_foreground.png \
+		mobile/android/branding/unofficial/res/mipmap-xxhdpi/ic_launcher_foreground.png \
+		mobile/android/app/src/main/res/drawable-nodpi/firstrun_sendtab.png \
+		mobile/android/app/src/main/res/drawable-nodpi/firstrun_sync2.png \
+		mobile/android/app/src/main/res/drawable-nodpi/firstrun_welcome2.png \
+
 
