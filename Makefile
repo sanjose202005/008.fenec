@@ -76,6 +76,7 @@ MozLocales:=$(shell realpath MozLocales/MozLocales)
 define mozconfTEXT
 
 
+ac_add_options --enable-ffmpeg
 ac_add_options --enable-application=mobile/android
 ac_add_options --enable-linker=lld
 #ac_add_options --disable-eme
@@ -190,14 +191,14 @@ r6:
 	$(apkListCP) 1/
 	@echo
 
-r7:
+i1:
 	@echo
 	adb uninstall org.mozilla.fennec_fdroid
 	adb install 1/fennec-$(VERSION).multi.android-aarch64.apk 
 	@echo
 
-rrr := r1 r2 r3 r4 r5 r6 r7
-rrr2 := r2 r3 r4 r5 r6 r7
+rrr := r1 r2 r3 r4 r5 r6 i1
+rrr2 := r2 r3 r4 r5 r6 i1
 
 rrr : $(rrr)
 rrr2 : $(rrr2)
