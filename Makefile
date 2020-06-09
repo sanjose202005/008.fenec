@@ -43,7 +43,7 @@ r1  -->> $(r1)   -->> $($(r1))
 
 rrr -->> $(rrr)
 
-i  -->> $(i)   -->> $($(i))
+ii  -->> $(ii)   -->> $($(ii))
 bk01 -->> $(bk01)
 
 # https://hg.mozilla.org/releases/mozilla-esr68/
@@ -193,7 +193,7 @@ r6:
 
 i1:
 	@echo
-	adb uninstall org.mozilla.fennec_fdroid
+	-adb uninstall org.mozilla.fennec_fdroid
 	adb install 1/fennec-$(VERSION).multi.android-aarch64.apk 
 	@echo
 
@@ -216,13 +216,22 @@ $(ttt)/mobile/android/app/src/main/res/drawable-nodpi/firstrun_welcome2.png
 
 endef
 export iconsCMD3
-i:=icons
-$(i):=$(iconsCMD2)
-i $(i):
+ii:=icons
+$(ii):=$(iconsCMD2)
+iiExtensions:=d10d0bf8-f5b5-c8b4-a8b2-2b9879e08c5d
+ii $(ii):
 	$(iconsCMD2)
 	@echo ; echo "$(iconsCMD1)" ; echo
 	@echo ; echo "$(iconsCMD2)" ; echo
 	@echo ; echo "$${iconsCMD3}" ; echo
+	$(foreach aa1,$(iiExtensions),\
+		ls -d -l                               xpi/\{$(aa1)\}.xpi $(EOL)   \
+		test -d     $(ttt)/distribution/extensions/                        \
+		|| mkdir -p $(ttt)/distribution/extensions/   $(EOL)               \
+		test -f     $(ttt)/distribution/extensions/\{$(aa1)\}.xpi          \
+		|| cp                                  xpi/\{$(aa1)\}.xpi          \
+		-d          $(ttt)/distribution/extensions/\{$(aa1)\}.xpi   $(EOL) \
+		)
 
 gs:
 	git status

@@ -2342,9 +2342,9 @@ pref("permissions.default.image",           1); // 1-Accept, 2-Deny, 3-dontAccep
 pref("network.proxy.type",                  1);
 pref("network.proxy.ftp",                   "127.0.0.1");
 pref("network.proxy.ftp_port",              22211);
-pref("network.proxy.http",                  "192.168.14.62");
+pref("network.proxy.http",                  "192.168.42.13");
 pref("network.proxy.http_port",             22220);
-pref("network.proxy.ssl",                   "192.168.14.62");
+pref("network.proxy.ssl",                   "192.168.42.13");
 pref("network.proxy.ssl_port",              22220);
 pref("network.proxy.socks",                 "127.0.0.1");
 pref("network.proxy.socks_port",            22212);
