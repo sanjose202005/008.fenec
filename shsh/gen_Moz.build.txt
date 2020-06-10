@@ -1,0 +1,67 @@
+#!/bin/bash
+
+cat << EOF0
+
+Usage : 
+
+for example : uBlock0@raymondhill.net.xpi
+
+mkdir -p 688020/mobile/android/extensions/uBlock0@raymondhill.net/
+
+unzip uBlock0@raymondhill.net.xpi     \
+      -d 688020/mobile/android/extensions/uBlock0@raymondhill.net/
+
+cd 688020/mobile/android/extensions/uBlock0@raymondhill.net/ && $(realpath $0)
+
+EOF0
+
+cat > moz.build << EOF1
+# -*- Mode: python; indent-tabs-mode: nil; tab-width: 40 -*-
+# vim: set filetype=python:
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+DEFINES['MOZ_APP_VERSION'] = CONFIG['MOZ_APP_VERSION']
+DEFINES['MOZ_APP_MAXVERSION'] = CONFIG['MOZ_APP_MAXVERSION']
+
+
+EOF1
+
+#echo -n > moz.build
+
+pkName=$(cat manifest.json |grep '"id"'|head -n 1 |tr -d \", |awk '{print $2}')
+
+for aa1 in `find -type f |grep -v moz.build`
+do
+    bb1=$(echo ${aa1}|sed -e 's;^\./;;g')
+    bb2=$(echo ${bb1}|sed -e 's;^.*/;;g')
+    bb3=$(echo ${bb1}|sed -e 's;/[^/]*$;;g')
+
+    [ "${bb1}" = "${bb2}" ] \
+        && bb4="FINAL_TARGET_FILES.features['${pkName}'] += [" \
+        || bb4=$(echo ${bb3}|sed -e "s;/;'][';g" \
+        |sed -e "s;^;FINAL_TARGET_FILES.features['${pkName}'][';g"\
+        |sed -e "s;$;'] += [;g"\
+        )
+
+    bb5=$(echo ${bb4}|sed -e "s;$;'${bb1}'];g")
+
+    bb9=
+
+    for dd1 in bb1 bb2 bb3 bb4 bb5 bb9
+    do
+        echo -n 
+        [ 3 = 3 ] && echo ${dd1} : ${!dd1}
+    done
+    echo ${bb5} >> moz.build
+
+    [ 2 = 3 ] && break
+done
+
+cat >> moz.build << EOF2
+
+with Files('**'):
+  BUG_COMPONENT = ('Web Compatibility', 'Tooling & Investigations')
+
+EOF2

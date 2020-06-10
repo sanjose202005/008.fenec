@@ -41,7 +41,9 @@ c1  -->> $(c1)   -->> $($(c1))
 
 r1  -->> $(r1)   -->> $($(r1))
 
-rrr -->> $(rrr)
+rrr  -->> $(rrr)
+rrr2 -->> $(rrr2)
+rrr4 -->> $(rrr4)
 
 ii  -->> $(ii)   -->> $($(ii))
 bk01 -->> $(bk01)
@@ -142,11 +144,19 @@ apkListCP:=\
 	cp `find $(ttt)/obj/dist/ -type f -name "*.apk" `  \
 	`find $(ttt)/obj/gradle/build/mobile/android/app/outputs/ -type f -name "*.apk"`
 
+define swithLOG
+rm -f    $(1).003
+[ ! -f   $(1).002 ] || mv    $(1).002 $(1).003 
+[ ! -f   $(1).001 ] || mv    $(1).001 $(1).002 
+[ ! -f   $(1)     ] || mv    $(1)     $(1).001 
+
+
+endef
 r1:=release1
 $(r1):=cd $(ttt) && $(env01) time ./mach build 
 r1 $(r1):
-	rm -f ./r1.txt
-	$($(r1)) | tee ../r1.txt
+	$(call swithLOG,./r1.txt)
+	$($(r1)) | tee --output-error=warn ../r1.txt
 	$(apkListCMD) >> ../r1.txt
 	$(apkListCMD)
 
@@ -156,22 +166,23 @@ r2:
 	cd $(ttt) && echo $${JAVA_HOME}
 	echo zh-TW > $(ttt)/used-locales
 	echo zh-CN >> $(ttt)/used-locales
-	cd $(ttt) && $(env01) cat used-locales | xargs -I % time ./mach build chrome-%    | tee ../r2.txt
+	cd $(ttt) && $(env01) cat used-locales | xargs -I % time ./mach build chrome-%    | tee --output-error=warn ../r2.txt
 	$(apkListCMD) >> ../r2.txt
 	@echo
 
 r3:
 	@echo
 	rm -f ./r3.txt
-	cd $(ttt) && $(env01) time make -C obj/mobile/android/base android_apks    | tee ../r3.txt
+	cd $(ttt) && $(env01) time make -C obj/mobile/android/base android_apks    | tee --output-error=warn ../r3.txt
 	$(apkListCMD) >> ../r3.txt
 	$(apkListCMD)
 	@echo
 
 r4:
 	@echo
-	rm -f ./r4.txt
-	cd $(ttt) && $(env01) time make -C obj package AB_CD=multi    | tee ../r4.txt
+	#rm -f ./r4.txt
+	$(call swithLOG,./r4.txt)
+	cd $(ttt) && $(env01) time make -C obj package AB_CD=multi    | tee --output-error=warn ../r4.txt
 	$(apkListCMD) >> ../r4.txt
 	$(apkListCMD)
 	@echo
@@ -181,7 +192,7 @@ r5:
 	rm -f ./r5.txt
 	cd $(ttt) && $(env01) \
 		time zip -d obj/dist/fennec-$(VERSION).multi.android-*-unsigned-unaligned.apk \
-        'META-INF/CERT.*' 'META-INF/MANIFEST.MF'    | tee ../r5.txt
+        'META-INF/CERT.*' 'META-INF/MANIFEST.MF'    | tee --output-error=warn ../r5.txt
 	$(apkListCMD) >> ../r5.txt
 	$(apkListCMD)
 	@echo
@@ -191,17 +202,23 @@ r6:
 	$(apkListCP) 1/
 	@echo
 
+r7:
+	$(call swithLOG,./r7.txt)
+
 i1:
 	@echo
+	-adb shell pm clear org.mozilla.fennec_fdroid
 	-adb uninstall org.mozilla.fennec_fdroid
 	adb install 1/fennec-$(VERSION).multi.android-aarch64.apk 
 	@echo
 
 rrr := r1 r2 r3 r4 r5 r6 i1
-rrr2 := r2 r3 r4 r5 r6 i1
+rrr2 :=   r2 r3 r4 r5 r6 i1
+rrr4 :=         r4 r5 r6 i1
 
 rrr : $(rrr)
 rrr2 : $(rrr2)
+rrr4 : $(rrr4)
 
 iconsCMD1:= find ./$(ttt)/mobile/android/ -name "*.png" |grep ic_launcher
 iconsCMD2:= find ./$(ttt)/mobile/android/branding/unofficial/res/mipmap-xxhdpi/ -name "*.png" |grep ic_launcher
@@ -218,19 +235,21 @@ endef
 export iconsCMD3
 ii:=icons
 $(ii):=$(iconsCMD2)
-iiExtensions:=d10d0bf8-f5b5-c8b4-a8b2-2b9879e08c5d
+iiExtensions:=b7f26455-ddae-4845-a97a-4c396ad8ca20
 ii $(ii):
 	$(iconsCMD2)
 	@echo ; echo "$(iconsCMD1)" ; echo
 	@echo ; echo "$(iconsCMD2)" ; echo
 	@echo ; echo "$${iconsCMD3}" ; echo
+
+iiXXX:
 	$(foreach aa1,$(iiExtensions),\
 		ls -d -l                               xpi/\{$(aa1)\}.xpi $(EOL)   \
-		test -d     $(ttt)/distribution/extensions/                        \
-		|| mkdir -p $(ttt)/distribution/extensions/   $(EOL)               \
-		test -f     $(ttt)/distribution/extensions/\{$(aa1)\}.xpi          \
+		test -d     $(ttt)//browser/extensions/                        \
+		|| mkdir -p $(ttt)//browser/extensions/   $(EOL)               \
+		test -f     $(ttt)//browser/extensions/\{$(aa1)\}.xpi          \
 		|| cp                                  xpi/\{$(aa1)\}.xpi          \
-		-d          $(ttt)/distribution/extensions/\{$(aa1)\}.xpi   $(EOL) \
+		-d          $(ttt)//browser/extensions/\{$(aa1)\}.xpi   $(EOL) \
 		)
 
 gs:
@@ -264,4 +283,12 @@ bk01 $(bk01):
 		mobile/android/app/src/main/res/drawable-nodpi/firstrun_sync2.png \
 		mobile/android/app/src/main/res/drawable-nodpi/firstrun_welcome2.png \
 
+define kkk
+
+FINAL_TARGET_FILES.features += [
+    '{b7f26455-ddae-4845-a97a-4c396ad8ca20}.xpi'
+]
+
+
+endef
 
