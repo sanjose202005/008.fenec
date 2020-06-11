@@ -1,3 +1,5 @@
+.PHONY: xpi
+
 # ####
 # https://f-droid.org/en/packages/org.mozilla.fennec_fdroid/
 # ####
@@ -125,6 +127,24 @@ all:
 	cat all.js.003.my.js > $(ttt)/modules/libpref/init/all.js
 	cd $(ttt) && tar xf ../bkTar/bk01_icon.tar 
 	@echo "$${allHelpText}"
+
+xpi:
+	for aa1 in xpi/*.xpi ; do \
+		aa2=`basename $${aa1}` ; \
+		aa3=$(ttt)/mobile/android/extensions/$${aa2%.xpi} ; \
+		aa4=`realpath  shsh/gen_Moz.build.txt ` ; \
+		echo === $${aa1} === begin ; \
+		[ -d $${aa3} ] || ( \
+		mkdir    $${aa3} ; \
+		unzip -q $${aa1}      -d $${aa3}/ ;  \
+		sed -i -e "/$${aa2%.xpi}/d" \
+		$(ttt)/mobile/android/extensions/moz.build ; \
+		echo "DIRS += ['$${aa2}']" >> \
+		$(ttt)/mobile/android/extensions/moz.build ; \
+		cd $${aa3}/ && . $${aa4} ;  \
+		) ; \
+		echo === $${aa1} , $${aa2} , $${aa3} , $${aa4} === end ; \
+		done
 
 m:=vm1
 $(m):=vim Makefile
@@ -291,4 +311,5 @@ FINAL_TARGET_FILES.features += [
 
 
 endef
+
 

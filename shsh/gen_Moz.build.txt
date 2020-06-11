@@ -63,7 +63,7 @@ do
     for dd1 in bb1 bb2 bb3 bb4 bb5 bb9
     do
         echo -n 
-        [ 3 = 3 ] && echo ${dd1} : ${!dd1}
+        [ 2 = 3 ] && echo ${dd1} : ${!dd1}
     done
     echo ${bb5} >> moz.build
 
