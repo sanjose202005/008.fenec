@@ -122,16 +122,19 @@ export local_propertiesTEXT
 
 
 all:
+	@echo "$${allHelpText}"
+
+pre:
 	@echo "$${mozconfTEXT}" > $(ttt)/.mozconfig
 	@echo "$${local_propertiesTEXT}" > $(ttt)/local.properties
 	cat all.js.003.my.js > $(ttt)/modules/libpref/init/all.js
+	cat AndroidManifest.xml.002.my.xml > $(ttt)/mobile/android/geckoview/src/main/AndroidManifest.xml
 	cd $(ttt) && tar xf ../bkTar/bk01_icon.tar 
-	@echo "$${allHelpText}"
 
 xpi:
 	for aa1 in xpi/*.xpi ; do \
 		aa2=`basename $${aa1}` ; \
-		aa5=`echo $${aa2%.xpi}|tr [@\.] _` ; \
+		aa5=`echo $${aa2%.xpi}|tr [@\.] _|cut -b 1-6` ; \
 		aa3=$(ttt)/mobile/android/extensions/$${aa5} ; \
 		aa4=`realpath  shsh/gen_Moz.build.txt ` ; \
 		echo === $${aa1} === begin ; \
@@ -146,6 +149,11 @@ xpi:
 		) ; \
 		echo === $${aa1} , $${aa2} , $${aa3} , $${aa4} , $${aa5} === end ; \
 		done
+
+xpiPath01SED:=sed -i -e '/"CHN-/,+5 s;"off": true,;"off": false,;g' 
+xpiPath01FILE:=
+xpiPath01CMD:=
+xpiPath01:
 
 m:=vm1
 $(m):=vim Makefile
@@ -304,13 +312,14 @@ bk01 $(bk01):
 		mobile/android/app/src/main/res/drawable-nodpi/firstrun_sync2.png \
 		mobile/android/app/src/main/res/drawable-nodpi/firstrun_welcome2.png \
 
-define kkk
-
-FINAL_TARGET_FILES.features += [
-    '{b7f26455-ddae-4845-a97a-4c396ad8ca20}.xpi'
-]
-
-
-endef
+reset1:
+	rm -fr ${ttt}
+	mkdir  ${ttt}
+	(cd org.mozilla.fennec_fdroid_688020_src/ && tar cf - .)|(cd ${ttt} && tar xf - )
 
 
+reset2:
+	rm -fr  ~/.gradle
+
+reset3:
+	rm -fr  ~/.android 
