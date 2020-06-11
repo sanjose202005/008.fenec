@@ -131,19 +131,20 @@ all:
 xpi:
 	for aa1 in xpi/*.xpi ; do \
 		aa2=`basename $${aa1}` ; \
-		aa3=$(ttt)/mobile/android/extensions/$${aa2%.xpi} ; \
+		aa5=`echo $${aa2%.xpi}|tr [@\.] _` ; \
+		aa3=$(ttt)/mobile/android/extensions/$${aa5} ; \
 		aa4=`realpath  shsh/gen_Moz.build.txt ` ; \
 		echo === $${aa1} === begin ; \
 		[ -d $${aa3} ] || ( \
 		mkdir    $${aa3} ; \
 		unzip -q $${aa1}      -d $${aa3}/ ;  \
-		sed -i -e "/$${aa2%.xpi}/d" \
+		sed -i -e "/$${aa5}/d" \
 		$(ttt)/mobile/android/extensions/moz.build ; \
-		echo "DIRS += ['$${aa2}']" >> \
+		echo "DIRS += ['$${aa5}']" >> \
 		$(ttt)/mobile/android/extensions/moz.build ; \
 		cd $${aa3}/ && . $${aa4} ;  \
 		) ; \
-		echo === $${aa1} , $${aa2} , $${aa3} , $${aa4} === end ; \
+		echo === $${aa1} , $${aa2} , $${aa3} , $${aa4} , $${aa5} === end ; \
 		done
 
 m:=vm1
