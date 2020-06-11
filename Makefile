@@ -13,6 +13,8 @@ endif
 
 gradlePATH:=/usr/bin/gradle
 gradlePATH:=/e/eda5101/gradle/gradle-4.10.2-all/bin/gradle
+gradlePATH:=/e/eda5101/gradle/gradle-5.6.4-all/bin/gradle
+gradlePATH:=/e/eda5101/gradle/gradle-6.4.1-all/bin/gradle
 
 androidSdkPATH:=/e/eda5101/Android/Sdk
 androidNdkPATH:=/e/eda5101/Android/Sdk/ndk/19.2.5345600/
@@ -49,6 +51,10 @@ rrr4 -->> $(rrr4)
 
 ii  -->> $(ii)   -->> $($(ii))
 bk01 -->> $(bk01)
+
+reset1 --> $(reset1)
+reset2 --> $(reset2)
+reset3 --> $(reset3)
 
 # https://hg.mozilla.org/releases/mozilla-esr68/
 
@@ -145,13 +151,14 @@ xpi:
 		$(ttt)/mobile/android/extensions/moz.build ; \
 		echo "DIRS += ['$${aa5}']" >> \
 		$(ttt)/mobile/android/extensions/moz.build ; \
-		cd $${aa3}/ && . $${aa4} ;  \
+		cd $${aa3}/ && ( . $${aa4} \
+		&& $(xpiPath01SED) $(xpiPath01FILE)) ;  \
 		) ; \
 		echo === $${aa1} , $${aa2} , $${aa3} , $${aa4} , $${aa5} === end ; \
 		done
 
-xpiPath01SED:=sed -i -e '/"CHN-/,+5 s;"off": true,;"off": false,;g' 
-xpiPath01FILE:=
+xpiPath01SED:=sed -i.bak -e '/"CHN-/,+5 s;"off": true,;"off": false,;g' 
+xpiPath01FILE:=assets/assets.json
 xpiPath01CMD:=
 xpiPath01:
 
@@ -312,14 +319,17 @@ bk01 $(bk01):
 		mobile/android/app/src/main/res/drawable-nodpi/firstrun_sync2.png \
 		mobile/android/app/src/main/res/drawable-nodpi/firstrun_welcome2.png \
 
+reset1:=(cd org.mozilla.fennec_fdroid_688020_src/ && tar cf - .)|(cd ${ttt} && tar xf - )
 reset1:
 	rm -fr ${ttt}
 	mkdir  ${ttt}
-	(cd org.mozilla.fennec_fdroid_688020_src/ && tar cf - .)|(cd ${ttt} && tar xf - )
+	$(reset1)
 
 
+reset2:= rm -fr  ~/.gradle
 reset2:
-	rm -fr  ~/.gradle
+	$(reset2)
 
+reset3:= rm -fr  ~/.android 
 reset3:
-	rm -fr  ~/.android 
+	$(reset3)
