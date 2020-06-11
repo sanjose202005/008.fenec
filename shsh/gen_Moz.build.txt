@@ -13,6 +13,13 @@ unzip uBlock0@raymondhill.net.xpi     \
 
 cd 688020/mobile/android/extensions/uBlock0@raymondhill.net/ && $(realpath $0)
 
+note : I have already test , 
+       the *.xpi must be extracted to the 688020/mobile/android/extensions/XXX/ ,
+   then , generate a moz.build, 
+   and modify the 688020/mobile/android/extensions/moz.build,
+   insert DIRS += ['XXX']
+   If , if , if , you want to NO-extracted the content of xpi and re-generate, it will failed.
+
 EOF0
 
 cat > moz.build << EOF1
@@ -30,7 +37,11 @@ EOF1
 
 #echo -n > moz.build
 
-pkName=$(cat manifest.json |grep '"id"'|head -n 1 |tr -d \", |awk '{print $2}')
+[ -f manifest.json ] \
+    && \
+    pkName=$(cat manifest.json |grep '"id"'|head -n 1 |tr -d \", |awk '{print $2}')    \
+    || \
+    pkName=$(basename ${PWD})
 
 for aa1 in `find -type f |grep -v moz.build`
 do
