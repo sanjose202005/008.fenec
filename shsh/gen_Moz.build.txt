@@ -6,12 +6,12 @@ Usage :
 
 for example : uBlock0@raymondhill.net.xpi
 
-mkdir -p 688020/mobile/android/extensions/uBlock0@raymondhill.net/
+mkdir -p 688020/mobile/android/extensions/uBlock_
 
 unzip uBlock0@raymondhill.net.xpi     \
-      -d 688020/mobile/android/extensions/uBlock0@raymondhill.net/
+      -d 688020/mobile/android/extensions/uBlock_
 
-cd 688020/mobile/android/extensions/uBlock0@raymondhill.net/ && $(realpath $0)
+cd 688020/mobile/android/extensions/uBlock_ && $(realpath $0)
 
 note : I have already test , 
        the *.xpi must be extracted to the 688020/mobile/android/extensions/XXX/ ,
