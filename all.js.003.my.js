@@ -14,6 +14,9 @@
  * rather than this (or any other) data file.
  */
 
+pref("intl.accept_languages", "zh-tw,en-us,en");
+pref("intl.locale.requested", "zh-TW");
+
 pref("keyword.enabled", false);
 pref("general.useragent.compatMode.firefox", false);
 
