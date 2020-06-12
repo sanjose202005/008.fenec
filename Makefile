@@ -93,11 +93,13 @@ MozLocales:=$(shell realpath MozLocales/MozLocales)
 ##### dstPKGfmt:=armv7-linux-androideabi   : I don't know why , the i686 and aarch64 can be used. armv7 always failed.
 #dstPKGfmt:=armv7-linux-androideabi$(EOL)ac_add_options --target=i686-linux-android
 dstPKGfmt:=aarch64-linux-android$(EOL)ac_add_options --target=i686-linux-android
-dstPKGfmt:=i686-linux-android
-dstPKGfmt:=aarch64-linux-android
-dstPKGfmt:=arm-unknown-linux-androideabi
 #dstPKGfmt:=thumbv7neon-linux-androideabi
+
 #ac_add_options --target=$(dstPKGfmt)
+dstPKGfmt:=i686-linux-android
+dstPKGfmt:=arm-unknown-linux-androideabi
+dstPKGfmt:=aarch64-linux-android
+
 
 define mozconfTEXT
 
@@ -149,9 +151,10 @@ all:
 pre:
 	echo "$${mozconfTEXT}" > $(ttt)/.mozconfig
 	echo "$${local_propertiesTEXT}" > $(ttt)/local.properties
-	cat all.js.003.my.js > $(ttt)/modules/libpref/init/all.js
 	cat AndroidManifest.xml.002.my.xml > $(ttt)/mobile/android/geckoview/src/main/AndroidManifest.xml
 	cd $(ttt) && tar xf ../bkTar/bk01_icon.tar 
+	cat all.js.003.my.js     > $(ttt)/modules/libpref/init/all.js
+	cat all.js.001.origin.js > $(ttt)/modules/libpref/init/all.js
 
 xpi:
 	for aa1 in xpi/*.xpi ; do \
