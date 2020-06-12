@@ -1,0 +1,51 @@
+#!/bin/bash
+
+#dir1=$(dirname $(realpath $0))/
+#cd ${dir1}
+#pwd
+#(
+
+#sqFS="verdi_2016.06 verdi_2017.12__lower  verdi_2018.09__lower"
+#auFS="verdi_2017.12  verdi_2018.09"
+#### tmpFS="verdi_2017.12__up  verdi_2018.09__up"
+
+#sqFS="verdi_2016.06"
+#auFS="verdi_2017.12  verdi_2018.09"
+
+
+#if [ 4 = 3 ] ; then
+#    lowSqFS="QUANTUS20"
+#fi
+#
+#if [ 4 = 3 ] ; then
+#    sqFS="QUANTUS20__lower"
+#    tmpFS="QUANTUS20__up"
+#    auFS="QUANTUS20"
+#    android-ndk-r19c-linux-x86_64/android-ndk-r19c   \
+#    android-ndk-r21c-linux-x86_64/android-ndk-r21c   \
+#    commandlinetools-linux-6514223_latest/tools  \
+#    offline-android-gradle-plugin-preview/android-gradle-plugin-3.5.0-beta01  \
+#    offline-gmaven-stable/gmaven_stable "
+#fi
+
+tmpFS="\
+    "
+
+sqFS=" \
+    688020__lower \
+    "
+
+auFS=" \
+    688020 \
+    "
+
+#umountFS="QUANTUS20__lower QUANTUS20__up QUANTUS20 " 
+
+. /e/auto.eda.mount.base.sh
+
+if [ "$1" = 'umount' ]
+then
+    mount |grep /008.fenec/
+fi
+
+#)

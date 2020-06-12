@@ -1,3 +1,8 @@
+ifeq ($(USER),root)
+$(info )$(info you should NOT use user "root")$(info )
+$(error )
+endif
+
 .PHONY: xpi
 
 # ####
