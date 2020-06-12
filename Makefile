@@ -97,9 +97,10 @@ dstPKGfmt:=aarch64-linux-android$(EOL)ac_add_options --target=i686-linux-android
 
 #ac_add_options --target=$(dstPKGfmt)
 dstPKGfmt:=i686-linux-android
-dstPKGfmt:=arm-unknown-linux-androideabi
 dstPKGfmt:=aarch64-linux-android
+dstPKGfmt:=arm-unknown-linux-androideabi
 
+#mk_add_options 'export L10NBASEDIR=$(MozLocales)'
 
 define mozconfTEXT
 
@@ -119,7 +120,6 @@ ac_add_options --with-branding=mobile/android/branding/unofficial
 export MOZ_INSTALL_TRACKING=
 export MOZ_NATIVE_DEVICES=
 mk_add_options 'export MOZ_CHROME_MULTILOCALE=zh-TW zh-CN '
-mk_add_options 'export L10NBASEDIR=$(MozLocales)'
 ac_add_options --with-l10n-base=$(MozLocales)
 ac_add_options --with-gradle=$(gradlePATH)
 ac_add_options --with-android-min-sdk=21
@@ -153,8 +153,12 @@ pre:
 	echo "$${local_propertiesTEXT}" > $(ttt)/local.properties
 	cat AndroidManifest.xml.002.my.xml > $(ttt)/mobile/android/geckoview/src/main/AndroidManifest.xml
 	cd $(ttt) && tar xf ../bkTar/bk01_icon.tar 
-	cat all.js.003.my.js     > $(ttt)/modules/libpref/init/all.js
-	cat all.js.001.origin.js > $(ttt)/modules/libpref/init/all.js
+	cat all.js.003.my.js     > \
+		$(ttt)/modules/libpref/init/all.js
+	cat all.js.001.origin.js > \
+		$(ttt)/modules/libpref/init/all.js
+	cat UnusedResourcesUtil.java.003.my.java > \
+		$(ttt)/mobile/android/base/java/org/mozilla/gecko/util/UnusedResourcesUtil.java
 
 xpi:
 	for aa1 in xpi/*.xpi ; do \
