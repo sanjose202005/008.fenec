@@ -13,8 +13,9 @@ endif
 
 gradlePATH:=/usr/bin/gradle
 gradlePATH:=/e/eda5101/gradle/gradle-4.10.2-all/bin/gradle
-gradlePATH:=/e/eda5101/gradle/gradle-5.6.4-all/bin/gradle
-gradlePATH:=/e/eda5101/gradle/gradle-6.4.1-all/bin/gradle
+gradlePATH:=/e/eda5101/gradle/gradle-4.10.3-all/bin/gradle
+#gradlePATH:=/e/eda5101/gradle/gradle-5.6.4-all/bin/gradle
+#gradlePATH:=/e/eda5101/gradle/gradle-6.4.1-all/bin/gradle
 
 androidSdkPATH:=/e/eda5101/Android/Sdk
 androidNdkPATH:=/e/eda5101/Android/Sdk/ndk/19.2.5345600/
@@ -83,6 +84,16 @@ env01:= JAVA_HOME=$(JAVA_HOME) nice -n 19
 
 MozLocales:=$(shell realpath MozLocales/MozLocales)
 
+##### dstPKGfmt:=armv7-linux-androideabi   : I don't know why , the i686 and aarch64 can be used. armv7 always failed.
+#dstPKGfmt:=armv7-linux-androideabi$(EOL)ac_add_options --target=i686-linux-android
+#            thumbv7neon-linux-androideabi
+
+dstPKGfmt:=aarch64-linux-android
+dstPKGfmt:=i686-linux-android
+dstPKGfmt:=aarch64-linux-android$(EOL)ac_add_options --target=i686-linux-android
+
+#ac_add_options --target=$(dstPKGfmt)
+
 define mozconfTEXT
 
 
@@ -103,7 +114,6 @@ mk_add_options 'export MOZ_CHROME_MULTILOCALE=zh-TW zh-CN '
 mk_add_options 'export L10NBASEDIR=$(MozLocales)'
 ac_add_options --with-l10n-base=$(MozLocales)
 ac_add_options --with-gradle=$(gradlePATH)
-ac_add_options --target=aarch64-linux-android
 ac_add_options --with-android-min-sdk=21
 ac_add_options --with-android-ndk="$(androidNdkPATH)"
 ac_add_options --with-android-sdk="$(androidSdkPATH)"
@@ -131,8 +141,8 @@ all:
 	@echo "$${allHelpText}"
 
 pre:
-	@echo "$${mozconfTEXT}" > $(ttt)/.mozconfig
-	@echo "$${local_propertiesTEXT}" > $(ttt)/local.properties
+	echo "$${mozconfTEXT}" > $(ttt)/.mozconfig
+	echo "$${local_propertiesTEXT}" > $(ttt)/local.properties
 	cat all.js.003.my.js > $(ttt)/modules/libpref/init/all.js
 	cat AndroidManifest.xml.002.my.xml > $(ttt)/mobile/android/geckoview/src/main/AndroidManifest.xml
 	cd $(ttt) && tar xf ../bkTar/bk01_icon.tar 
@@ -318,6 +328,11 @@ bk01 $(bk01):
 		mobile/android/app/src/main/res/drawable-nodpi/firstrun_sendtab.png \
 		mobile/android/app/src/main/res/drawable-nodpi/firstrun_sync2.png \
 		mobile/android/app/src/main/res/drawable-nodpi/firstrun_welcome2.png \
+
+reset: 
+	@echo
+	@echo 'make reset1 ; make reset2 ; make pre ; make xpi ; (make c1 && make rrr)'
+	@echo
 
 reset1:=(cd org.mozilla.fennec_fdroid_688020_src/ && tar cf - .)|(cd ${ttt} && tar xf - )
 reset1:
