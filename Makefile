@@ -338,10 +338,14 @@ reset:
 	@echo 'make reset1 ; make reset2 ; make pre ; make xpi ; (make c1 && make rrr)'
 	@echo
 
-reset1:=(cd org.mozilla.fennec_fdroid_/ && tar cf - .)|(cd ${ttt} && tar xf - )
+reset1:=(cd org.mozilla.fennec_fdroid_/ && rm .* * -fr && ls -la && echo === && tar cf - .)|(cd ${ttt} && tar xf - )
 reset1:
-	rm -fr ${ttt}
-	mkdir  ${ttt}
+	cd $(ttt)/ && rm .* * -fr && ls -la 
+	@echo === 
+	[ -f $(ttt).tar.xz ] \
+		&& (cd $(ttt) && tar xfJ ../$(ttt).tar.xz )   \
+		|| ((cd org.mozilla.fennec_fdroid_/ && tar cf - .)|( cd ${ttt} && tar xf - ))
+
 	$(reset1)
 
 
@@ -352,3 +356,6 @@ reset2:
 reset3:= rm -fr  ~/.android 
 reset3:
 	$(reset3)
+
+up:
+	git push
