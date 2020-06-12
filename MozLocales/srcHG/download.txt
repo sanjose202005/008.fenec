@@ -1,0 +1,4 @@
+#!/bin/bash
+
+hg clone https://hg.mozilla.org/l10n-central/zh-TW/
+hg clone https://hg.mozilla.org/l10n-central/zh-CN/

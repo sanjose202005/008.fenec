@@ -65,6 +65,9 @@ reset3 --> $(reset3)
 
 # https://hg.mozilla.org/releases/mozilla-esr68/
 
+hg clone https://hg.mozilla.org/l10n-central/zh-TW/
+hg clone https://hg.mozilla.org/l10n-central/zh-CN/
+
 # https://firefox-source-docs.mozilla.org/build/buildsystem/locales.html
 # https://hg.mozilla.org/l10n-central/ 
 # https://hg.mozilla.org/l10n-central/zh-CN/archive/tip.zip
@@ -100,11 +103,12 @@ dstPKGfmt:=i686-linux-android
 dstPKGfmt:=aarch64-linux-android
 dstPKGfmt:=arm-unknown-linux-androideabi
 
-#mk_add_options 'export L10NBASEDIR=$(MozLocales)'
 
 define mozconfTEXT
 
 
+mk_add_options 'export L10NBASEDIR=$(MozLocales)'
+ac_add_options --with-l10n-base=$(MozLocales)
 ac_add_options --target=$(dstPKGfmt)
 ac_add_options --enable-ffmpeg
 ac_add_options --enable-application=mobile/android
@@ -120,7 +124,6 @@ ac_add_options --with-branding=mobile/android/branding/unofficial
 export MOZ_INSTALL_TRACKING=
 export MOZ_NATIVE_DEVICES=
 mk_add_options 'export MOZ_CHROME_MULTILOCALE=zh-TW zh-CN '
-ac_add_options --with-l10n-base=$(MozLocales)
 ac_add_options --with-gradle=$(gradlePATH)
 ac_add_options --with-android-min-sdk=21
 ac_add_options --with-android-ndk="$(androidNdkPATH)"
