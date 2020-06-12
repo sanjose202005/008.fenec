@@ -30,6 +30,9 @@
 
 tmpFS="\
     "
+zramFS="\
+    688020__up \
+    "
 
 sqFS=" \
     688020__lower \

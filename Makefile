@@ -342,17 +342,24 @@ bk01 $(bk01):
 		mobile/android/app/src/main/res/drawable-nodpi/firstrun_welcome2.png \
 
 reset: 
-	@echo
-	@echo 'make reset1 ; make reset2 ; make pre ; make xpi ; (make c1 && make rrr)'
-	@echo
+	make reset1 
+	make reset2 
+	make pre 
+	make xpi 
+	make c1 
+	make rrr
 
-reset1:=(cd org.mozilla.fennec_fdroid_/ && rm .* * -fr && ls -la && echo === && tar cf - .)|(cd ${ttt} && tar xf - )
 reset1:
-	cd $(ttt)/ && rm .* * -fr && ls -la 
+	cd $(ttt)/ && (rm .* * -fr ; ls -la )
 	@echo === 
-	[ -f $(ttt).tar.xz ] \
-		&& (cd $(ttt) && tar xfJ ../$(ttt).tar.xz )   \
-		|| ((cd org.mozilla.fennec_fdroid_/ && tar cf - .)|( cd ${ttt} && tar xf - ))
+	if [ -f $(ttt).tar.xz ] ; then \
+		echo "extarct from tar.xz" ; \
+		(cd $(ttt) && tar xfJ ../$(ttt).tar.xz ) ; \
+		else  \
+		echo "copy from org.mozilla.fennec_fdroid_/" ; \
+		((cd org.mozilla.fennec_fdroid_/ && tar cf - .)|( cd ${ttt} && tar xf - )) ; \
+		fi; echo -n
+
 
 	$(reset1)
 
