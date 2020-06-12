@@ -5,6 +5,7 @@
 # ####
 
 VERSION:=68.8.0
+VERSION:=68.9.0
 
 gradleVER:=$(shell gradle --version 2>/dev/null |grep ^Gradle|awk '{print $$2}')
 ifneq (4.4.1,$(gradleVER))
@@ -86,17 +87,17 @@ MozLocales:=$(shell realpath MozLocales/MozLocales)
 
 ##### dstPKGfmt:=armv7-linux-androideabi   : I don't know why , the i686 and aarch64 can be used. armv7 always failed.
 #dstPKGfmt:=armv7-linux-androideabi$(EOL)ac_add_options --target=i686-linux-android
-#            thumbv7neon-linux-androideabi
-
-dstPKGfmt:=aarch64-linux-android
-dstPKGfmt:=i686-linux-android
 dstPKGfmt:=aarch64-linux-android$(EOL)ac_add_options --target=i686-linux-android
-
+dstPKGfmt:=i686-linux-android
+dstPKGfmt:=aarch64-linux-android
+dstPKGfmt:=arm-unknown-linux-androideabi
+#dstPKGfmt:=thumbv7neon-linux-androideabi
 #ac_add_options --target=$(dstPKGfmt)
 
 define mozconfTEXT
 
 
+ac_add_options --target=$(dstPKGfmt)
 ac_add_options --enable-ffmpeg
 ac_add_options --enable-application=mobile/android
 ac_add_options --enable-linker=lld
@@ -255,7 +256,10 @@ i1:
 	@echo
 	-adb shell pm clear org.mozilla.fennec_fdroid
 	-adb uninstall org.mozilla.fennec_fdroid
-	adb install 1/fennec-$(VERSION).multi.android-aarch64.apk 
+	adb install $(firstword $(wildcard \
+		1/fennec-$(VERSION).multi.android-aarch64.apk \
+		1/fennec-$(VERSION).multi.android-arm.apk \
+		))
 	@echo
 
 rrr := r1 r2 r3 r4 r5 r6 i1
@@ -334,7 +338,7 @@ reset:
 	@echo 'make reset1 ; make reset2 ; make pre ; make xpi ; (make c1 && make rrr)'
 	@echo
 
-reset1:=(cd org.mozilla.fennec_fdroid_688020_src/ && tar cf - .)|(cd ${ttt} && tar xf - )
+reset1:=(cd org.mozilla.fennec_fdroid_/ && tar cf - .)|(cd ${ttt} && tar xf - )
 reset1:
 	rm -fr ${ttt}
 	mkdir  ${ttt}
