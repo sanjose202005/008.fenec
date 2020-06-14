@@ -160,10 +160,18 @@ pre:
 		$(ttt)/modules/libpref/init/all.js
 	cat all.js.001.origin.js > \
 		$(ttt)/modules/libpref/init/all.js
-	cat UnusedResourcesUtil.java.003.my.java > \
-		$(ttt)/mobile/android/base/java/org/mozilla/gecko/util/UnusedResourcesUtil.java
-	sed -i -e 's,"about:firefox";,"https://hope000.github.io/apks/";,g'   \
-		$(ttt)/mobile/android/base/java/org/mozilla/gecko/AboutPages.java
+	##cat UnusedResourcesUtil.java.003.my.java > \
+	##	$(ttt)/mobile/android/base/java/org/mozilla/gecko/util/UnusedResourcesUtil.java
+	##cat firefox.js.003.my.js > \
+	##	$(ttt)/browser/app/profile/firefox.js
+	#sed -i \
+	#	-e 's,"about:home";,"";,g'   \
+	#	$(ttt)/mobile/android/base/java/org/mozilla/gecko/Tabs.java       \
+	#	$(ttt)/mobile/android/base/java/org/mozilla/gecko/preferences/GeckoPreferences.java       \
+	#	$(ttt)/mobile/android/base/java/org/mozilla/gecko/preferences/GeckoPreferences.java       \
+	#	$(ttt)/mobile/android/base/java/org/mozilla/gecko/preferences/SetHomepagePreference.java
+	cat Tabs.java.003.my.java > \
+		$(ttt)/mobile/android/base/java/org/mozilla/gecko/Tabs.java
 
 xpi:
 	for aa1 in xpi/*.xpi ; do \

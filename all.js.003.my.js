@@ -14,6 +14,20 @@
  * rather than this (or any other) data file.
  */
 
+//  // 0 = blank, 1 = home (browser.startup.homepage), 2 = last visited page, 3 = resume previous browser session
+//  // The behavior of option 3 is detailed at: http://wiki.mozilla.org/Session_Restore
+//  pref("browser.startup.page",                1);
+//  pref("browser.startup.homepage",            "https://hope000.github.io/apks/");
+//  // Whether we should skip the homepage when opening the first-run page
+//  pref("browser.startup.firstrunSkipsHomepage", false);
+//  // Used by pdf.js to know the first time firefox is run with it installed so it
+//  // can become the default pdf viewer.
+//  pref("pdfjs.firstRun", false);
+//  pref("app.normandy.first_run", false);
+
+
+
+
 pref("keyword.enabled", false);
 pref("general.useragent.compatMode.firefox", false);
 

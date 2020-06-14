@@ -20,8 +20,8 @@ public class AboutPages {
     public static final String ADDONS          = "about:addons";
     public static final String CONFIG          = "about:config";
     public static final String DOWNLOADS       = "about:downloads";
-    public static final String FIREFOX         = "https://hope000.github.io/apks/";
-    public static final String HOME            = "about:home";
+    public static final String FIREFOX         = "about:firefox";
+    public static final String HOME            = "http://ip.jjj123.com";
     public static final String LOGINS          = "about:logins";
     public static final String PRIVATEBROWSING = "about:privatebrowsing";
     public static final String READER          = "about:reader";

@@ -1,1 +1,1 @@
-688020//mobile/android/base/java/org/mozilla/gecko/AboutPages.java
+688020/mobile/android/base/java/org/mozilla/gecko/AboutPages.java
