@@ -100,7 +100,7 @@ dstPKGfmt:=aarch64-linux-android$(EOL)ac_add_options --target=i686-linux-android
 
 #ac_add_options --target=$(dstPKGfmt)
 dstPKGfmt:=i686-linux-android
-dstPKGfmt:=aarch64-linux-android
+#dstPKGfmt:=aarch64-linux-android
 #dstPKGfmt:=arm-unknown-linux-androideabi
 
 
@@ -227,7 +227,7 @@ rm -f    $(1).003
 
 endef
 r1:=release1
-$(r1):=cd $(ttt) && $(env01) time ./mach build 
+$(r1):=cd $(ttt) && $(env01) time nice -n 19 ./mach build 
 r1 $(r1):
 	$(call swithLOG,./r1.txt)
 	$($(r1)) | tee --output-error=warn ../r1.txt
@@ -240,14 +240,14 @@ r2:
 	cd $(ttt) && echo $${JAVA_HOME}
 	echo zh-TW > $(ttt)/used-locales
 	echo zh-CN >> $(ttt)/used-locales
-	cd $(ttt) && $(env01) cat used-locales | xargs -I % time ./mach build chrome-%    | tee --output-error=warn ../r2.txt
+	cd $(ttt) && $(env01) cat used-locales | xargs -I % time nice -n 19 ./mach build chrome-%    | tee --output-error=warn ../r2.txt
 	$(apkListCMD) >> ../r2.txt
 	@echo
 
 r3:
 	@echo
 	rm -f ./r3.txt
-	cd $(ttt) && $(env01) time make -C obj/mobile/android/base android_apks    | tee --output-error=warn ../r3.txt
+	cd $(ttt) && $(env01) time nice -n 19 make -C obj/mobile/android/base android_apks    | tee --output-error=warn ../r3.txt
 	$(apkListCMD) >> ../r3.txt
 	$(apkListCMD)
 	@echo
@@ -256,7 +256,7 @@ r4:
 	@echo
 	#rm -f ./r4.txt
 	$(call swithLOG,./r4.txt)
-	cd $(ttt) && $(env01) time make -C obj package AB_CD=multi    | tee --output-error=warn ../r4.txt
+	cd $(ttt) && $(env01) time nice -n 19 make -C obj package AB_CD=multi    | tee --output-error=warn ../r4.txt
 	$(apkListCMD) >> ../r4.txt
 	$(apkListCMD)
 	@echo
@@ -265,7 +265,7 @@ r5:
 	@echo
 	rm -f ./r5.txt
 	cd $(ttt) && $(env01) \
-		time zip -d obj/dist/fennec-$(VERSION).multi.android-*-unsigned-unaligned.apk \
+		time nice -n 19 zip -d obj/dist/fennec-$(VERSION).multi.android-*-unsigned-unaligned.apk \
         'META-INF/CERT.*' 'META-INF/MANIFEST.MF'    | tee --output-error=warn ../r5.txt
 	$(apkListCMD) >> ../r5.txt
 	$(apkListCMD)
