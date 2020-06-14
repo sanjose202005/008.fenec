@@ -164,14 +164,16 @@ pre:
 	##	$(ttt)/mobile/android/base/java/org/mozilla/gecko/util/UnusedResourcesUtil.java
 	##cat firefox.js.003.my.js > \
 	##	$(ttt)/browser/app/profile/firefox.js
-	#sed -i \
-	#	-e 's,"about:home";,"";,g'   \
-	#	$(ttt)/mobile/android/base/java/org/mozilla/gecko/Tabs.java       \
-	#	$(ttt)/mobile/android/base/java/org/mozilla/gecko/preferences/GeckoPreferences.java       \
-	#	$(ttt)/mobile/android/base/java/org/mozilla/gecko/preferences/GeckoPreferences.java       \
-	#	$(ttt)/mobile/android/base/java/org/mozilla/gecko/preferences/SetHomepagePreference.java
-	cat Tabs.java.003.my.java > \
-		$(ttt)/mobile/android/base/java/org/mozilla/gecko/Tabs.java
+	# grep -R AboutPages.HOME    688020/mobile/android/base/java/org/mozilla/gecko/
+	# grep -R AboutPages.HOME    org.mozilla.fennec_fdroid_/ |awk -F: '{print $1}' |sort -u
+	sed -i                                                                                        \
+		-e 's,AboutPages.HOME,"https://hope000.github.io/apks/",g'                        		  \
+		$(ttt)/mobile/android/base/java/org/mozilla/gecko/Tabs.java                               \
+		$(ttt)/mobile/android/base/java/org/mozilla/gecko/preferences/GeckoPreferences.java       \
+		$(ttt)/mobile/android/base/java/org/mozilla/gecko/preferences/SetHomepagePreference.java  
+	#	$(ttt)/mobile/android/app/src/test/java/org/mozilla/gecko/icons/preparation/TestAboutPagesPreparer.java
+	#cat Tabs.java.003.my.java > \
+	#	$(ttt)/mobile/android/base/java/org/mozilla/gecko/Tabs.java
 
 xpi:
 	for aa1 in xpi/*.xpi ; do \
