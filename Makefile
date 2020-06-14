@@ -162,6 +162,8 @@ pre:
 		$(ttt)/modules/libpref/init/all.js
 	cat UnusedResourcesUtil.java.003.my.java > \
 		$(ttt)/mobile/android/base/java/org/mozilla/gecko/util/UnusedResourcesUtil.java
+	sed -i -e 's,"about:firefox";,"https://hope000.github.io/apks/";,g'   \
+		$(ttt)/mobile/android/base/java/org/mozilla/gecko/AboutPages.java
 
 xpi:
 	for aa1 in xpi/*.xpi ; do \

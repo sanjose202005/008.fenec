@@ -14,9 +14,6 @@
  * rather than this (or any other) data file.
  */
 
-pref("intl.accept_languages", "zh-tw,en-us,en");
-pref("intl.locale.requested", "zh-TW");
-
 pref("keyword.enabled", false);
 pref("general.useragent.compatMode.firefox", false);
 
@@ -2403,7 +2400,10 @@ pref("converter.html2txt.header_strategy",  1); // 0 = no indention; 1 = indenti
 // we want to be able to pref-off it if user doesn't like it.
 pref("converter.html2txt.always_include_ruby", false);
 
-pref("intl.accept_languages",               "chrome://global/locale/intl.properties");
+pref("intl.accept_languages", "zh-tw,en-us,en");
+pref("intl.locale.requested", "zh-TW");
+pref("intl.locale.os", "zh-TW");
+//pref("intl.accept_languages",               "chrome://global/locale/intl.properties");
 pref("intl.menuitems.alwaysappendaccesskeys","chrome://global/locale/intl.properties");
 pref("intl.menuitems.insertseparatorbeforeaccesskeys","chrome://global/locale/intl.properties");
 pref("intl.charset.detector",               "chrome://global/locale/intl.properties");
