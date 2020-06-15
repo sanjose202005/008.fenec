@@ -101,7 +101,7 @@ dstPKGfmt:=aarch64-linux-android$(EOL)ac_add_options --target=i686-linux-android
 #ac_add_options --target=$(dstPKGfmt)
 dstPKGfmt:=i686-linux-android
 #dstPKGfmt:=aarch64-linux-android
-#dstPKGfmt:=arm-unknown-linux-androideabi
+dstPKGfmt:=arm-unknown-linux-androideabi
 
 
 # Android 4.1 Jelly Bean (API 16)
@@ -171,7 +171,7 @@ pre:
 	# grep -R AboutPages.HOME    688020/mobile/android/base/java/org/mozilla/gecko/
 	# grep -R AboutPages.HOME    org.mozilla.fennec_fdroid_/ |awk -F: '{print $1}' |sort -u
 	sed -i                                                                                        \
-		-e 's,AboutPages.HOME,"https://hope000.github.io/apks/",g'                        		  \
+		-e 's,AboutPages.HOME,"https://hope000.github.io/p01/",g'                        		  \
 		$(ttt)/mobile/android/base/java/org/mozilla/gecko/Tabs.java                               \
 		$(ttt)/mobile/android/base/java/org/mozilla/gecko/preferences/GeckoPreferences.java       \
 		$(ttt)/mobile/android/base/java/org/mozilla/gecko/preferences/SetHomepagePreference.java  
