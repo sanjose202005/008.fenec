@@ -100,8 +100,8 @@ dstPKGfmt:=aarch64-linux-android$(EOL)ac_add_options --target=i686-linux-android
 
 #ac_add_options --target=$(dstPKGfmt)
 dstPKGfmt:=i686-linux-android
-dstPKGfmt:=aarch64-linux-android
-dstPKGfmt:=arm-unknown-linux-androideabi
+#dstPKGfmt:=aarch64-linux-android
+#dstPKGfmt:=arm-unknown-linux-androideabi
 
 
 # Android 4.1 Jelly Bean (API 16)
@@ -232,6 +232,8 @@ apkListCMD:=\
 apkListCP:=\
 	cp `find $(ttt)/obj/dist/ -type f -name "*.apk" `  \
 	`find $(ttt)/obj/gradle/build/mobile/android/app/outputs/ -type f -name "*.apk"`
+apkListCP:=\
+	cp `find $(ttt)/obj/dist/ -type f -name "*.apk" |grep -v unsigned-unaligned.apk `  
 
 define swithLOG
 rm -f    $(1).003
@@ -293,6 +295,7 @@ r5:
 
 r6:
 	@echo
+	[ -d 1/ ] || mkdir 1/
 	$(apkListCP) 1/
 	@echo
 
@@ -302,7 +305,9 @@ r7:
 i1:
 	@echo
 	-adb shell pm clear org.mozilla.fennec_fdroid
+	-adb shell pm clear org.mmm.fff
 	-adb uninstall org.mozilla.fennec_fdroid
+	-adb uninstall org.mmm.fff
 	adb install $(firstword $(wildcard \
 		1/fennec-$(VERSION).multi.android-aarch64.apk \
 		1/fennec-$(VERSION).multi.android-arm.apk \
