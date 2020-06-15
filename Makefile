@@ -101,8 +101,12 @@ dstPKGfmt:=aarch64-linux-android$(EOL)ac_add_options --target=i686-linux-android
 #ac_add_options --target=$(dstPKGfmt)
 dstPKGfmt:=i686-linux-android
 dstPKGfmt:=aarch64-linux-android
-#dstPKGfmt:=arm-unknown-linux-androideabi
+dstPKGfmt:=arm-unknown-linux-androideabi
 
+
+# Android 4.1 Jelly Bean (API 16)
+# Android 4.4 KitKat (API 19)
+# Android 5.0 Lollipop (API 21)
 
 define mozconfTEXT
 
@@ -125,7 +129,7 @@ export MOZ_INSTALL_TRACKING=
 export MOZ_NATIVE_DEVICES=
 mk_add_options 'export MOZ_CHROME_MULTILOCALE=zh-TW zh-CN '
 ac_add_options --with-gradle=$(gradlePATH)
-ac_add_options --with-android-min-sdk=21
+ac_add_options --with-android-min-sdk=16
 ac_add_options --with-android-ndk="$(androidNdkPATH)"
 ac_add_options --with-android-sdk="$(androidSdkPATH)"
 ac_add_options --enable-application=mobile/android
@@ -174,9 +178,17 @@ pre:
 	#	$(ttt)/mobile/android/app/src/test/java/org/mozilla/gecko/icons/preparation/TestAboutPagesPreparer.java
 	#cat Tabs.java.003.my.java > \
 	#	$(ttt)/mobile/android/base/java/org/mozilla/gecko/Tabs.java
+	#
+	#		$(ttt)/obj/mobile/android/base/AndroidManifest.xml
 	sed -i \
-		-e 's;org.mozilla.fennec_fdroid;org.mmm.fff;g' \
-		$(ttt)/obj/mobile/android/base/AndroidManifest.xml
+		\
+		-e 's;\b965234145045\b;999999999999;g'                  \
+		-e 's;\b242693410970\b;222222222222;g'                  \
+		-e 's;\borg.mozilla.fennec_fdroid\b;org.mmm.fff;g'      \
+		-e 's;\bFennec F-Droid\b;mmmfff;g'                		\
+		-e 's;\b689020\b;222222;g'                        		\
+		\
+		$(ttt)/mobile/android/branding/unofficial/configure.sh
 
 xpi:
 	for aa1 in xpi/*.xpi ; do \
@@ -236,6 +248,7 @@ r1 $(r1):
 	$($(r1)) | tee --output-error=warn ../r1.txt
 	$(apkListCMD) >> ../r1.txt
 	$(apkListCMD)
+	find $(ttt)/ -type f > $(ttt).after.r1.txt
 
 r2:
 	@echo
@@ -245,6 +258,7 @@ r2:
 	echo zh-CN >> $(ttt)/used-locales
 	cd $(ttt) && $(env01) cat used-locales | xargs -I % time nice -n 19 ./mach build chrome-%    | tee --output-error=warn ../r2.txt
 	$(apkListCMD) >> ../r2.txt
+	find $(ttt)/ -type f > $(ttt).after.r2.txt
 	@echo
 
 r3:
@@ -253,6 +267,7 @@ r3:
 	cd $(ttt) && $(env01) time nice -n 19 make -C obj/mobile/android/base android_apks    | tee --output-error=warn ../r3.txt
 	$(apkListCMD) >> ../r3.txt
 	$(apkListCMD)
+	find $(ttt)/ -type f > $(ttt).after.r3.txt
 	@echo
 
 r4:
@@ -262,6 +277,7 @@ r4:
 	cd $(ttt) && $(env01) time nice -n 19 make -C obj package AB_CD=multi    | tee --output-error=warn ../r4.txt
 	$(apkListCMD) >> ../r4.txt
 	$(apkListCMD)
+	find $(ttt)/ -type f > $(ttt).after.r4.txt
 	@echo
 
 r5:
@@ -272,6 +288,7 @@ r5:
         'META-INF/CERT.*' 'META-INF/MANIFEST.MF'    | tee --output-error=warn ../r5.txt
 	$(apkListCMD) >> ../r5.txt
 	$(apkListCMD)
+	find $(ttt)/ -type f > $(ttt).after.r5.txt
 	@echo
 
 r6:
@@ -357,8 +374,11 @@ bk01 $(bk01):
 	[ -d bkTar/ ] 
 	[ ! -f bkTar/bk01_icon.tar ]
 	cd $(ttt) && tar cf ../bkTar/bk01_icon.tar \
+		mobile/android/branding/unofficial/res/mipmap-hdpi/ic_launcher_foreground.png      \
+		mobile/android/branding/unofficial/res/mipmap-mdpi/ic_launcher_foreground.png      \
+		mobile/android/branding/unofficial/res/mipmap-xhdpi/ic_launcher_foreground.png      \
+		mobile/android/branding/unofficial/res/mipmap-xxhdpi/ic_launcher_foreground.png      \
 		mobile/android/branding/unofficial/res/mipmap-xxxhdpi/ic_launcher_foreground.png \
-		mobile/android/branding/unofficial/res/mipmap-xxhdpi/ic_launcher_foreground.png \
 		mobile/android/app/src/main/res/drawable-nodpi/firstrun_sendtab.png \
 		mobile/android/app/src/main/res/drawable-nodpi/firstrun_sync2.png \
 		mobile/android/app/src/main/res/drawable-nodpi/firstrun_welcome2.png \
