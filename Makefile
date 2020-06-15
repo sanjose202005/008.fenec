@@ -12,6 +12,9 @@ endif
 VERSION:=68.8.0
 VERSION:=68.9.0
 
+pppDirName:=p01
+progName:=hope000.$(pppDirName).$(shell printf "%x" `date +%s`)
+
 gradleVER:=$(shell gradle --version 2>/dev/null |grep ^Gradle|awk '{print $$2}')
 ifneq (4.4.1,$(gradleVER))
 $(info gradleVER must be 4.4.4 )$(error )
@@ -99,8 +102,8 @@ dstPKGfmt:=aarch64-linux-android$(EOL)ac_add_options --target=i686-linux-android
 #dstPKGfmt:=thumbv7neon-linux-androideabi
 
 #ac_add_options --target=$(dstPKGfmt)
-dstPKGfmt:=i686-linux-android
 #dstPKGfmt:=aarch64-linux-android
+dstPKGfmt:=i686-linux-android
 dstPKGfmt:=arm-unknown-linux-androideabi
 
 
@@ -171,7 +174,7 @@ pre:
 	# grep -R AboutPages.HOME    688020/mobile/android/base/java/org/mozilla/gecko/
 	# grep -R AboutPages.HOME    org.mozilla.fennec_fdroid_/ |awk -F: '{print $1}' |sort -u
 	sed -i                                                                                        \
-		-e 's,AboutPages.HOME,"https://hope000.github.io/p01/",g'                        		  \
+		-e 's,AboutPages.HOME,"https://hope000.github.io/$(pppDirName)/",g'                        		  \
 		$(ttt)/mobile/android/base/java/org/mozilla/gecko/Tabs.java                               \
 		$(ttt)/mobile/android/base/java/org/mozilla/gecko/preferences/GeckoPreferences.java       \
 		$(ttt)/mobile/android/base/java/org/mozilla/gecko/preferences/SetHomepagePreference.java  
@@ -185,7 +188,7 @@ pre:
 		-e 's;\b965234145045\b;999999999999;g'                  \
 		-e 's;\b242693410970\b;222222222222;g'                  \
 		-e 's;\borg.mozilla.fennec_fdroid\b;org.mmm.fff;g'      \
-		-e 's;\bFennec F-Droid\b;mmmfff;g'                		\
+		-e 's;\bFennec F-Droid\b;$(progName);g'                		\
 		-e 's;\b689020\b;222222;g'                        		\
 		\
 		$(ttt)/mobile/android/branding/unofficial/configure.sh
@@ -304,6 +307,7 @@ r7:
 
 i1:
 	@echo
+	touch 1/$(progName)__$(dstPKGfmt).txt
 	-adb shell pm clear org.mozilla.fennec_fdroid
 	-adb shell pm clear org.mmm.fff
 	-adb uninstall org.mozilla.fennec_fdroid
@@ -379,11 +383,11 @@ bk01 $(bk01):
 	[ -d bkTar/ ] 
 	[ ! -f bkTar/bk01_icon.tar ]
 	cd $(ttt) && tar cf ../bkTar/bk01_icon.tar \
-		mobile/android/branding/unofficial/res/mipmap-hdpi/ic_launcher_foreground.png      \
-		mobile/android/branding/unofficial/res/mipmap-mdpi/ic_launcher_foreground.png      \
-		mobile/android/branding/unofficial/res/mipmap-xhdpi/ic_launcher_foreground.png      \
-		mobile/android/branding/unofficial/res/mipmap-xxhdpi/ic_launcher_foreground.png      \
-		mobile/android/branding/unofficial/res/mipmap-xxxhdpi/ic_launcher_foreground.png \
+		\
+		`find mobile/android/branding/unofficial/res/ -type f -name "*.png" |grep ic_launcher`      \
+		\
+		`find mobile/android/branding/unofficial/res/ -type f -name "*.png" |grep icon.png`      \
+		\
 		mobile/android/app/src/main/res/drawable-nodpi/firstrun_sendtab.png \
 		mobile/android/app/src/main/res/drawable-nodpi/firstrun_sync2.png \
 		mobile/android/app/src/main/res/drawable-nodpi/firstrun_welcome2.png \
