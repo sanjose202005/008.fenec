@@ -299,6 +299,7 @@ r5:
 r6:
 	@echo
 	[ -d 1/ ] || mkdir 1/
+	touch 1/$(progName)__$(dstPKGfmt).txt
 	$(apkListCP) 1/
 	@echo
 
@@ -307,7 +308,6 @@ r7:
 
 i1:
 	@echo
-	touch 1/$(progName)__$(dstPKGfmt).txt
 	-adb shell pm clear org.mozilla.fennec_fdroid
 	-adb shell pm clear org.mmm.fff
 	-adb uninstall org.mozilla.fennec_fdroid
