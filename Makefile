@@ -102,9 +102,9 @@ dstPKGfmt:=aarch64-linux-android$(EOL)ac_add_options --target=i686-linux-android
 #dstPKGfmt:=thumbv7neon-linux-androideabi
 
 #ac_add_options --target=$(dstPKGfmt)
-#dstPKGfmt:=aarch64-linux-android
 dstPKGfmt:=i686-linux-android
 dstPKGfmt:=arm-unknown-linux-androideabi
+dstPKGfmt:=aarch64-linux-android
 
 
 # Android 4.1 Jelly Bean (API 16)
@@ -161,7 +161,13 @@ all:
 pre:
 	echo "$${mozconfTEXT}" > $(ttt)/.mozconfig
 	echo "$${local_propertiesTEXT}" > $(ttt)/local.properties
-	cat AndroidManifest.xml.002.my.xml > $(ttt)/mobile/android/geckoview/src/main/AndroidManifest.xml
+	#cat AndroidManifest.xml.002.my.xml > $(ttt)/mobile/android/geckoview/src/main/AndroidManifest.xml
+	cat FennecManifest_permissions.xml.in.003.my.in > \
+		$(ttt)/mobile/android/base/FennecManifest_permissions.xml.in
+	cat DataReportingNotification.java.002.my.java > \
+		$(ttt)/mobile/android/base/java/org/mozilla/gecko/DataReportingNotification.java
+	cat FxAccountAndroidManifest_permissions.xml.in.003.my.in > \
+		$(ttt)/mobile/android/services/manifests/FxAccountAndroidManifest_permissions.xml.in
 	cd $(ttt) && tar xf ../bkTar/bk01_icon.tar 
 	cat all.js.003.my.js     > \
 		$(ttt)/modules/libpref/init/all.js
@@ -178,11 +184,6 @@ pre:
 		$(ttt)/mobile/android/base/java/org/mozilla/gecko/Tabs.java                               \
 		$(ttt)/mobile/android/base/java/org/mozilla/gecko/preferences/GeckoPreferences.java       \
 		$(ttt)/mobile/android/base/java/org/mozilla/gecko/preferences/SetHomepagePreference.java  
-	#	$(ttt)/mobile/android/app/src/test/java/org/mozilla/gecko/icons/preparation/TestAboutPagesPreparer.java
-	#cat Tabs.java.003.my.java > \
-	#	$(ttt)/mobile/android/base/java/org/mozilla/gecko/Tabs.java
-	#
-	#		$(ttt)/obj/mobile/android/base/AndroidManifest.xml
 	sed -i \
 		\
 		-e 's;\b965234145045\b;999999999999;g'                  \

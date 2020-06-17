@@ -1,0 +1,10 @@
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+    <!-- A signature level permission granted only to the Firefox
+         channels sharing an Android Account type. -->
+    <permission
+        android:name="@ANDROID_PACKAGE_NAME@_fxaccount.permission.PER_ACCOUNT_TYPE"
+        android:protectionLevel="signature">
+    </permission>
+
+    <uses-permission android:name="@ANDROID_PACKAGE_NAME@_fxaccount.permission.PER_ACCOUNT_TYPE" />
