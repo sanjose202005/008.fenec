@@ -97,14 +97,11 @@ env01:= JAVA_HOME=$(JAVA_HOME) nice -n 19
 MozLocales:=$(shell realpath MozLocales/MozLocales)
 
 ##### dstPKGfmt:=armv7-linux-androideabi   : I don't know why , the i686 and aarch64 can be used. armv7 always failed.
-#dstPKGfmt:=armv7-linux-androideabi$(EOL)ac_add_options --target=i686-linux-android
-dstPKGfmt:=aarch64-linux-android$(EOL)ac_add_options --target=i686-linux-android
-#dstPKGfmt:=thumbv7neon-linux-androideabi
 
 #ac_add_options --target=$(dstPKGfmt)
-dstPKGfmt:=i686-linux-android
-dstPKGfmt:=arm-unknown-linux-androideabi
-dstPKGfmt:=aarch64-linux-android
+#dstPKGfmt?=i686-linux-android
+dstPKGfmt?=arm-unknown-linux-androideabi
+#dstPKGfmt?=aarch64-linux-android
 
 
 # Android 4.1 Jelly Bean (API 16)
