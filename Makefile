@@ -247,9 +247,10 @@ endef
 r1:=release1
 $(r1):=cd $(ttt) && $(env01) time nice -n 19 ./mach build 
 r1 $(r1):
-	$(call swithLOG,./r1.txt)
-	$($(r1)) | tee --output-error=warn ../r1.txt
-	$(apkListCMD) >> ../r1.txt
+	[ -d log ] || mkdir log
+	$(call swithLOG,log/r1.txt)
+	$($(r1)) | tee --output-error=warn ../log/r1.txt
+	$(apkListCMD) >> log/r1.txt
 	$(apkListCMD)
 	find $(ttt)/ -type f > $(ttt).after.r1.txt
 
@@ -259,16 +260,16 @@ r2:
 	cd $(ttt) && echo $${JAVA_HOME}
 	echo zh-TW > $(ttt)/used-locales
 	echo zh-CN >> $(ttt)/used-locales
-	cd $(ttt) && $(env01) cat used-locales | xargs -I % time nice -n 19 ./mach build chrome-%    | tee --output-error=warn ../r2.txt
-	$(apkListCMD) >> ../r2.txt
+	cd $(ttt) && $(env01) cat used-locales | xargs -I % time nice -n 19 ./mach build chrome-%    | tee --output-error=warn ../log/r2.txt
+	$(apkListCMD) >> log/r2.txt
 	find $(ttt)/ -type f > $(ttt).after.r2.txt
 	@echo
 
 r3:
 	@echo
 	rm -f ./r3.txt
-	cd $(ttt) && $(env01) time nice -n 19 make -C obj/mobile/android/base android_apks    | tee --output-error=warn ../r3.txt
-	$(apkListCMD) >> ../r3.txt
+	cd $(ttt) && $(env01) time nice -n 19 make -C obj/mobile/android/base android_apks    | tee --output-error=warn ../log/r3.txt
+	$(apkListCMD) >> log/r3.txt
 	$(apkListCMD)
 	find $(ttt)/ -type f > $(ttt).after.r3.txt
 	@echo
@@ -276,9 +277,9 @@ r3:
 r4:
 	@echo
 	#rm -f ./r4.txt
-	$(call swithLOG,./r4.txt)
-	cd $(ttt) && $(env01) time nice -n 19 make -C obj package AB_CD=multi    | tee --output-error=warn ../r4.txt
-	$(apkListCMD) >> ../r4.txt
+	$(call swithLOG,log/r4.txt)
+	cd $(ttt) && $(env01) time nice -n 19 make -C obj package AB_CD=multi    | tee --output-error=warn ../log/r4.txt
+	$(apkListCMD) >> log/r4.txt
 	$(apkListCMD)
 	find $(ttt)/ -type f > $(ttt).after.r4.txt
 	@echo
@@ -288,8 +289,8 @@ r5:
 	rm -f ./r5.txt
 	cd $(ttt) && $(env01) \
 		time nice -n 19 zip -d obj/dist/fennec-$(VERSION).multi.android-*-unsigned-unaligned.apk \
-        'META-INF/CERT.*' 'META-INF/MANIFEST.MF'    | tee --output-error=warn ../r5.txt
-	$(apkListCMD) >> ../r5.txt
+        'META-INF/CERT.*' 'META-INF/MANIFEST.MF'    | tee --output-error=warn ../log/r5.txt
+	$(apkListCMD) >> log/r5.txt
 	$(apkListCMD)
 	find $(ttt)/ -type f > $(ttt).after.r5.txt
 	@echo
@@ -302,7 +303,7 @@ r6:
 	@echo
 
 r7:
-	$(call swithLOG,./r7.txt)
+	$(call swithLOG,log/r7.txt)
 
 i1:
 	@echo
