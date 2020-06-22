@@ -166,10 +166,6 @@ pre:
 	cat FxAccountAndroidManifest_permissions.xml.in.003.my.in > \
 		$(ttt)/mobile/android/services/manifests/FxAccountAndroidManifest_permissions.xml.in
 	cd $(ttt) && tar xf ../bkTar/bk01_icon.tar 
-	cat all.js.003.my.js     > \
-		$(ttt)/modules/libpref/init/all.js
-	cat all.js.001.origin.js > \
-		$(ttt)/modules/libpref/init/all.js
 	##cat UnusedResourcesUtil.java.003.my.java > \
 	##	$(ttt)/mobile/android/base/java/org/mozilla/gecko/util/UnusedResourcesUtil.java
 	##cat firefox.js.003.my.js > \
@@ -190,6 +186,10 @@ pre:
 		-e 's;\b689020\b;222222;g'                        		\
 		\
 		$(ttt)/mobile/android/branding/unofficial/configure.sh
+	cat all.js.003.my.js     > \
+		$(ttt)/modules/libpref/init/all.js
+	#cat all.js.001.origin.js > \
+	#	$(ttt)/modules/libpref/init/all.js
 
 xpi:
 	for aa1 in xpi/*.xpi ; do \
