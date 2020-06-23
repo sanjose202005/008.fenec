@@ -190,6 +190,17 @@ pre:
 		$(ttt)/modules/libpref/init/all.js
 	#cat all.js.001.origin.js > \
 	#	$(ttt)/modules/libpref/init/all.js
+	#
+	#sed -i \
+	#	-e 's;"Mozilla/5.0 (Android;"Firefox.mmm.21.$(progName).$(pppDirName) Mozilla/5.0 (Android;g' \
+	#	688020/mobile/android/geckoview/build.gradle 
+	#sed -i \
+	#	-e 's;"Mozilla/5.0 (Android;"Firefox.mmm.31.$(progName).$(pppDirName) Mozilla/5.0 (Android;g' \
+	#	688020/mobile/android/base/AppConstants.java.in
+	sed -i \
+		-e 's;"Mozilla/5.0 (;"Firefox.mmm.41.$(progName).$(pppDirName) Mozilla/5.0 (;g' \
+		$(ttt)/toolkit/components/resistfingerprinting/nsRFPService.cpp
+
 
 xpi:
 	for aa1 in xpi/*.xpi ; do \
