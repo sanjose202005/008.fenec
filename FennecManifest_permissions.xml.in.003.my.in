@@ -27,6 +27,7 @@
     <uses-feature android:name="android.hardware.touchscreen"/>
 
     <!-- Tab Queue -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
     <!-- To be able to install updates and other downloaded APKs on API 26+ -->
     <uses-permission-sdk-23 android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
