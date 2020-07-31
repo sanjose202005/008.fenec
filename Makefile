@@ -13,7 +13,17 @@ VERSION:=68.8.0
 VERSION:=68.9.0
 
 pppDirName:=p01
-progName:=hope000.$(pppDirName).$(shell printf "%x" `date +%s`)
+progName:=hope000.$(pppDirName).$(shell printf "%x" `date +%s`|cut -b 4-)
+progName:=$(pppDirName).$(shell printf "%x" `date +%s`|cut -b 4-)
+
+ifeq (,$(strip $(no_proxy_text)))
+no_proxy_text:=
+sedAboutHome:= -e 's,AboutPages.HOME,"https://hope000.github.io/$(pppDirName)/",g' 
+else
+no_proxy_text:=|grep -v network.proxy.type
+sedAboutHome:= -e 's,AboutPages.HOME,"https://hk2007j.chinadsf.org/p01/",g' 
+endif
+
 
 gradleVER:=$(shell gradle --version 2>/dev/null |grep ^Gradle|awk '{print $$2}')
 ifneq (4.4.1,$(gradleVER))
@@ -65,6 +75,8 @@ bk01 -->> $(bk01)
 reset1 --> $(reset1)
 reset2 --> $(reset2)
 reset3 --> $(reset3)
+
+reset  --> $(reset) --> note : you can use "export no_proxy_text=p01"
 
 # https://hg.mozilla.org/releases/mozilla-esr68/
 
@@ -173,7 +185,7 @@ pre:
 	# grep -R AboutPages.HOME    688020/mobile/android/base/java/org/mozilla/gecko/
 	# grep -R AboutPages.HOME    org.mozilla.fennec_fdroid_/ |awk -F: '{print $1}' |sort -u
 	sed -i                                                                                        \
-		-e 's,AboutPages.HOME,"https://hope000.github.io/$(pppDirName)/",g'                        		  \
+		$(sedAboutHome)  \
 		$(ttt)/mobile/android/base/java/org/mozilla/gecko/Tabs.java                               \
 		$(ttt)/mobile/android/base/java/org/mozilla/gecko/preferences/GeckoPreferences.java       \
 		$(ttt)/mobile/android/base/java/org/mozilla/gecko/preferences/SetHomepagePreference.java  
@@ -186,7 +198,8 @@ pre:
 		-e 's;\b689020\b;222222;g'                        		\
 		\
 		$(ttt)/mobile/android/branding/unofficial/configure.sh
-	cat all.js.003.my.js     > \
+	#### change the network.proxy.type here
+	cat all.js.003.my.js   $(no_proxy_text)  > \
 		$(ttt)/modules/libpref/init/all.js
 	#cat all.js.001.origin.js > \
 	#	$(ttt)/modules/libpref/init/all.js
@@ -402,6 +415,7 @@ bk01 $(bk01):
 		mobile/android/app/src/main/res/drawable-nodpi/firstrun_sync2.png \
 		mobile/android/app/src/main/res/drawable-nodpi/firstrun_welcome2.png \
 
+reset:=do_all_build_step
 reset: 
 	make reset1 
 	make reset2 
