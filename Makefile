@@ -429,7 +429,8 @@ reset1:
 	@echo === 
 	if [ -f $(ttt).tar.xz ] ; then \
 		echo "extarct from tar.xz" ; \
-		(cd $(ttt) && tar xfJ ../$(ttt).tar.xz ) ; \
+		(cd $(ttt) && tar xfJ ../$(ttt).tar.xz && cd org.mozilla.fennec_fdroid_* \
+		&& (mv * ../ && mv .* ../ 2>/dev/null )) ; \
 		else  \
 		echo "copy from org.mozilla.fennec_fdroid_/" ; \
 		((cd org.mozilla.fennec_fdroid_/ && tar cf - .)|( cd ${ttt} && tar xf - )) ; \

@@ -18,3 +18,4 @@
 /8.[0-9]*/
 /log/r?.txt
 /log/r?.txt.*
+/org.mozilla.fennec_fdroid_*.xz
